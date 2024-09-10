@@ -14,7 +14,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "bpmn-engine": "^22.0.3"
+    "bpmn-engine": "^22.0.3",
+    "fs-extra": "^9.1.0",
+    "goblin-chest": "^1.0.3"
   },
   "devDependencies": {
     "xcraft-dev-prettier": "^2.0.0",
