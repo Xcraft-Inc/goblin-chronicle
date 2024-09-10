@@ -1,0 +1,24 @@
+{
+  "name": "goblin-chronicle",
+  "version": "0.1.0",
+  "description": "goblin-chronicle",
+  "author": "",
+  "license": "MIT",
+  "main": "lib/chronicle.js",
+  "config": {
+    "xcraft": {
+      "commands": true
+    }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "bpmn-engine": "^22.0.3"
+  },
+  "devDependencies": {
+    "xcraft-dev-prettier": "^2.0.0",
+    "xcraft-dev-rules": "^4.4.2"
+  },
+  "prettier": "xcraft-dev-prettier"
+}
