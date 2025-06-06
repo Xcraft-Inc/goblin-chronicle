@@ -110,16 +110,16 @@ L'état de l'acteur `Chronicle` est défini par `ChronicleShape` :
 
 #### Méthodes publiques
 
-**`create(id, desktopId, workflowId)`** - Crée une nouvelle instance de Chronicle pour exécuter un workflow spécifique. Valide l'existence du workflow et initialise l'état de l'acteur avec les informations du workflow récupérées depuis la base de données.
-**`begin(desktopId, workflowId, contextId, createdAt, createdBy, initialData)`** - Point d'entrée principal pour l'exécution d'un workflow. Orchestre l'ensemble du processus : création du contexte, exécution du script, gestion des événements de cycle de vie et nettoyage final. L'acteur se supprime automatiquement à la fin de l'exécution.
-**`startWorkflow(context, data)`** - Enregistre un événement 'workflow-started' pour marquer le début de l'exécution du workflow dans le système d'événements métier.
-**`cancelWorkflow(context, data)`** - Enregistre un événement 'workflow-canceled' lorsque le workflow échoue ou est annulé, incluant les détails de l'erreur.
-**`endWorkflow(context, data)`** - Enregistre un événement 'workflow-ended' pour marquer la fin réussie du workflow avec les données de sortie si configuré.
+- **`create(id, desktopId, workflowId)`** - Crée une nouvelle instance de Chronicle pour exécuter un workflow spécifique. Valide l'existence du workflow et initialise l'état de l'acteur avec les informations du workflow récupérées depuis la base de données.
+- **`begin(desktopId, workflowId, contextId, createdAt, createdBy, initialData)`** - Point d'entrée principal pour l'exécution d'un workflow. Orchestre l'ensemble du processus : création du contexte, exécution du script, gestion des événements de cycle de vie et nettoyage final. L'acteur se supprime automatiquement à la fin de l'exécution.
+- **`startWorkflow(context, data)`** - Enregistre un événement 'workflow-started' pour marquer le début de l'exécution du workflow dans le système d'événements métier.
+- **`cancelWorkflow(context, data)`** - Enregistre un événement 'workflow-canceled' lorsque le workflow échoue ou est annulé, incluant les détails de l'erreur.
+- **`endWorkflow(context, data)`** - Enregistre un événement 'workflow-ended' pour marquer la fin réussie du workflow avec les données de sortie si configuré.
 
 #### Méthodes privées
 
-**`_getFileSource(sourceName)`** - Récupère l'emplacement physique d'un fichier script via le système GoldFs de goblin-chest.
-**`_runUserScript(desktopId, context, data)`** - Exécute le script utilisateur dans une VM JavaScript sécurisée avec accès au SDK Yennefer (Database, App, etc.). Gère les erreurs d'exécution et retourne un objet avec les propriétés `error` et `data`.
+- **`_getFileSource(sourceName)`** - Récupère l'emplacement physique d'un fichier script via le système GoldFs de goblin-chest.
+- **`_runUserScript(desktopId, context, data)`** - Exécute le script utilisateur dans une VM JavaScript sécurisée avec accès au SDK Yennefer (Database, App, etc.). Gère les erreurs d'exécution et retourne un objet avec les propriétés `error` et `data`.
 
 ### `lib/compendium.js`
 
@@ -135,22 +135,22 @@ L'état de l'acteur `Compendium` est défini par `CompendiumShape` :
 
 #### Méthodes publiques
 
-**`init()`** - Initialise le Compendium en configurant les abonnements aux événements de mise à jour des workflows et triggers. Configure également les hooks pour les événements métier et détermine le contexte d'exécution (serveur/client) selon la configuration.
-**`trigger(desktopId, workflowTriggerId, contextId, contextData)`** - Déclenche l'exécution d'un workflow via son trigger. Gère la logique d'attente de données si nécessaire (propriété `waitFor`) et crée une nouvelle Chronicle pour l'exécution.
-**`onAPICall(verb, route, body, multiMatch)`** - Traite les appels API entrants et déclenche les workflows correspondants selon les règles d'endpoint configurées. Supporte l'exécution multiple si `multiMatch` est activé.
-**`onBusinessEventCreated(event)`** - Traite les événements métier côté client et déclenche les workflows correspondants selon les règles d'événements configurées.
-**`update(events)`** - Traite les événements métier côté serveur et déclenche les workflows correspondants selon les règles d'événements. Méthode appelée par le système d'événements métier.
-**`loadTriggers()`** - Charge et enregistre tous les déclencheurs actifs depuis la base de données, en les catégorisant selon leur type (businessEvent/api) et contexte d'exécution (server/client). Utilise un debounce pour éviter les rechargements trop fréquents.
-**`loadWorkflows()`** - Charge les workflows depuis les ressources du système de fichiers Gold et les enregistre dans la base de données. Gère la détection des changements via un hash SHA256 et supprime les workflows détachés. Utilise un debounce pour optimiser les performances.
-**`beginChronicle(desktopId, workflowId, meta, data)`** - Crée et démarre une nouvelle instance de Chronicle pour exécuter un workflow avec les données fournies. Enregistre la chronicle dans l'état du compendium.
+- **`init()`** - Initialise le Compendium en configurant les abonnements aux événements de mise à jour des workflows et triggers. Configure également les hooks pour les événements métier et détermine le contexte d'exécution (serveur/client) selon la configuration.
+- **`trigger(desktopId, workflowTriggerId, contextId, contextData)`** - Déclenche l'exécution d'un workflow via son trigger. Gère la logique d'attente de données si nécessaire (propriété `waitFor`) et crée une nouvelle Chronicle pour l'exécution.
+- **`onAPICall(verb, route, body, multiMatch)`** - Traite les appels API entrants et déclenche les workflows correspondants selon les règles d'endpoint configurées. Supporte l'exécution multiple si `multiMatch` est activé.
+- **`onBusinessEventCreated(event)`** - Traite les événements métier côté client et déclenche les workflows correspondants selon les règles d'événements configurées.
+- **`update(events)`** - Traite les événements métier côté serveur et déclenche les workflows correspondants selon les règles d'événements. Méthode appelée par le système d'événements métier.
+- **`loadTriggers()`** - Charge et enregistre tous les déclencheurs actifs depuis la base de données, en les catégorisant selon leur type (businessEvent/api) et contexte d'exécution (server/client). Utilise un debounce pour éviter les rechargements trop fréquents.
+- **`loadWorkflows()`** - Charge les workflows depuis les ressources du système de fichiers Gold et les enregistre dans la base de données. Gère la détection des changements via un hash SHA256 et supprime les workflows détachés. Utilise un debounce pour optimiser les performances.
+- **`beginChronicle(desktopId, workflowId, meta, data)`** - Crée et démarre une nouvelle instance de Chronicle pour exécuter un workflow avec les données fournies. Enregistre la chronicle dans l'état du compendium.
 
 #### Méthodes privées
 
-**`registerServerBusinessEventTrigger(triggerId)`** - Enregistre un déclencheur d'événement métier côté serveur dans `_serverEventRules`.
-**`registerServerAPITrigger(triggerId)`** - Enregistre un déclencheur d'API côté serveur dans `_serverAPIRules`.
-**`registerClientBusinessEventTrigger(triggerId)`** - Enregistre un déclencheur d'événement métier côté client dans `_clientEventRules`.
-**`_resourcesLoader(namespace)`** - Charge les définitions de workflows depuis le système de fichiers Gold. Recherche les dossiers contenant un fichier `workflow.json` et un script `index.js` dans le namespace spécifié.
-**`_trashDetachedWorkflows(workflows)`** - Supprime les workflows et triggers qui ne sont plus présents dans les ressources, maintenant ainsi la cohérence entre le système de fichiers et la base de données.
+- **`registerServerBusinessEventTrigger(triggerId)`** - Enregistre un déclencheur d'événement métier côté serveur dans `_serverEventRules`.
+- **`registerServerAPITrigger(triggerId)`** - Enregistre un déclencheur d'API côté serveur dans `_serverAPIRules`.
+- **`registerClientBusinessEventTrigger(triggerId)`** - Enregistre un déclencheur d'événement métier côté client dans `_clientEventRules`.
+- **`_resourcesLoader(namespace)`** - Charge les définitions de workflows depuis le système de fichiers Gold. Recherche les dossiers contenant un fichier `workflow.json` et un script `index.js` dans le namespace spécifié.
+- **`_trashDetachedWorkflows(workflows)`** - Supprime les workflows et triggers qui ne sont plus présents dans les ressources, maintenant ainsi la cohérence entre le système de fichiers et la base de données.
 
 #### Gestion des règles de déclenchement
 
